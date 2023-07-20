@@ -1,6 +1,6 @@
 export type ServiceMessage = { message: string };
 
-type ServiceResponseErrorType = 'CONFLICT' | 'NOT_FOUND';
+type ServiceResponseErrorType = 'CONFLICT' | 'NOT_FOUND' | 'INVALID_DATA';
 
 export type ServiceResponseError = {
   status: ServiceResponseErrorType;
