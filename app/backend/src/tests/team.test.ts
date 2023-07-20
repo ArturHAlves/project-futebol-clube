@@ -16,7 +16,7 @@ const { app } = new App();
 describe('Test Team', function () {
   afterEach(() => sinon.restore());
 
-  it('should return all teams', async function () {
+  it('devera retornar todos os times', async function () {
     // Arr
     sinon.stub(SequelizeTeam, 'findAll').resolves(teams as any);
     //Act
@@ -26,7 +26,7 @@ describe('Test Team', function () {
     expect(body).to.deep.equal(teams);
   });
 
-  it('should return a team by id', async function () {
+  it('devera retornar um time pelo id', async function () {
     // Arr
     sinon.stub(SequelizeTeam, 'findByPk').resolves(team as any);
     // Act
@@ -36,7 +36,7 @@ describe('Test Team', function () {
     expect(body).to.deep.equal(team);
   });
 
-  it("should return not found if the team doesn't exists ", async function () {
+  it("devera retornar um 'Not found' se o time não existir", async function () {
     // Arr
     sinon.stub(SequelizeTeam, 'findByPk').resolves(null);
     // Act
