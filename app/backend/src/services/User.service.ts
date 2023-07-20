@@ -1,4 +1,4 @@
-// import * as bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcryptjs';
 import JWT from '../utils/JWT';
 import { ILogin, IToken } from '../Interfaces/Login/Login';
 import { ServiceMessage, ServiceResponse } from '../Interfaces/ServiceResponse';
@@ -14,11 +14,14 @@ export default class UserService {
 
   public async loginUser(payload: ILogin): Promise<ServiceResponse<ServiceMessage | IToken>> {
     const user = await this.userModel.findByEmail(payload.email);
-    // console.log(user);
-
-    const { email } = user as IUser;
-
-    const token = this.jwtService.sign({ email });
-    return { status: 'SUCESSFUL', data: { token } };
+    if (user) {
+      if (!bcrypt.compareSync(payload.password, user.password)) {
+        return { status: 'UNAUTHORIZED', data: { message: 'Invalid email or password' } };
+      }
+      const { email } = user as IUser;
+      const token = this.jwtService.sign({ email });
+      return { status: 'SUCESSFUL', data: { token } };
+    }
+    return { status: 'UNAUTHORIZED', data: { message: 'Invalid email or password' } };
   }
 }
