@@ -6,6 +6,9 @@ const user = {
   password: 'secret_user',
 };
 
+const validToken =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY4OTk3ODk5MywiZXhwIjoxNzIxNTM2NTkzfQ.aRskzRqmyIM5IFuDcwSN54KjKEaoLnUAPS9oBaVZ6Gg';
+
 // Valid
 const validEmail = 'user@user.com';
 
@@ -31,4 +34,5 @@ export {
   validLoginBody,
   validPasswordInvalidEmail,
   validEmailInvalidPassword,
+  validToken
 };
