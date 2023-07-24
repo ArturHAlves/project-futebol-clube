@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import teamsRouter from './teams.routes';
 import userRouter from './user.routes';
-import macheRouter from './matche.routes';
+import macheRouter from './match.routes';
 
 const router = Router();
 

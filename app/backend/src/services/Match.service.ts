@@ -7,8 +7,7 @@ export default class MatcheService {
   constructor(private matcheModel: IMatcheModel = new MatcheModel()) {}
 
   async getAllMatches(): Promise<ServiceResponse<IMatches[]>> {
-    const matches = await this.matcheModel.findAll();
-
-    return { status: 'SUCESSFUL', data: matches };
+    const allMatches = await this.matcheModel.findAll();
+    return { status: 'SUCESSFUL', data: allMatches };
   }
 }

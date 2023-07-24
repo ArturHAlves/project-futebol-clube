@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import MatcheController from '../controllers/Matche.controller';
+import MatcheController from '../controllers/Match.controller';
 
 const matchesController = new MatcheController();
 
