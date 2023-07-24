@@ -6,8 +6,8 @@ import IMatches from '../Interfaces/Matches/IMatches';
 export default class MatcheService {
   constructor(private matcheModel: IMatcheModel = new MatcheModel()) {}
 
-  async getAllMatches(): Promise<ServiceResponse<IMatches[]>> {
-    const allMatches = await this.matcheModel.findAll();
+  public async getAllMatches(progress?: string): Promise<ServiceResponse<IMatches[]>> {
+    const allMatches = await this.matcheModel.findAll(progress);
     return { status: 'SUCESSFUL', data: allMatches };
   }
 }

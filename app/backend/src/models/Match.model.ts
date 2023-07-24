@@ -6,13 +6,20 @@ import SequelizeTeam from '../database/models/SequelizeTeam';
 export default class MatcheModel implements IMatcheModel {
   private model = SequelizeMatch;
 
-  async findAll(): Promise<IMatches[]> {
-    const matches = await this.model.findAll({
+  async findAll(progress?: string): Promise<IMatches[]> {
+    const matches = {
       include: [
         { model: SequelizeTeam, as: 'homeTeam', attributes: { exclude: ['id'] } },
         { model: SequelizeTeam, as: 'awayTeam', attributes: { exclude: ['id'] } },
       ],
-    });
-    return matches;
+    };
+
+    if (progress) {
+      return this.model.findAll({
+        ...matches,
+        where: { inProgress: progress === 'true' },
+      });
+    }
+    return this.model.findAll(matches);
   }
 }

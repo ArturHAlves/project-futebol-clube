@@ -11,4 +11,7 @@ const match = {
 
 const matches = [match];
 
-export { match, matches };
+const matcheInProgress = [{ ...match, inProgress: true }];
+const finishedMatch = [{ ...match, inProgress: false }];
+
+export { match, matches, matcheInProgress, finishedMatch };
