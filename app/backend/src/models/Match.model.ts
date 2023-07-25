@@ -6,7 +6,7 @@ import SequelizeTeam from '../database/models/SequelizeTeam';
 export default class MatcheModel implements IMatcheModel {
   private model = SequelizeMatch;
 
-  async findAll(progress?: string): Promise<IMatches[]> {
+  public async findAll(progress?: string): Promise<IMatches[]> {
     const matches = {
       include: [
         { model: SequelizeTeam, as: 'homeTeam', attributes: { exclude: ['id'] } },
@@ -21,5 +21,19 @@ export default class MatcheModel implements IMatcheModel {
       });
     }
     return this.model.findAll(matches);
+  }
+
+  public async findById(id: number): Promise<IMatches | null> {
+    const match = await this.model.findByPk(id, {
+      include: [
+        { model: SequelizeTeam, as: 'homeTeam', attributes: { exclude: ['id'] } },
+        { model: SequelizeTeam, as: 'awayTeam', attributes: { exclude: ['id'] } },
+      ],
+    });
+    return match;
+  }
+
+  public async finishMatch(id: number): Promise<void> {
+    await this.model.update({ inProgress: false }, { where: { id } });
   }
 }

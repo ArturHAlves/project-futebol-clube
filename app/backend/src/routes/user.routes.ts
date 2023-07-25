@@ -10,7 +10,6 @@ const router = Router();
 router.post(
   '/',
   validationsLogin.validateLogin,
-  // authenticaded.validateToken,
   (req: Request, res: Response) => userController.loginUser(req, res),
 );
 

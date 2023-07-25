@@ -6,6 +6,7 @@ import chaiHttp = require('chai-http');
 import { App } from '../app';
 import SequelizeMatch from '../database/models/SequelizeMatch';
 import { matches, matcheInProgress, finishedMatch } from './mocks/Match.mocks';
+import { validToken } from './mocks/Login.mocks';
 
 chai.use(chaiHttp);
 
@@ -46,6 +47,33 @@ describe('Test Match', function () {
 
       expect(status).to.be.equal(200);
       expect(body).to.deep.equal(finishedMatch);
+    });
+  });
+
+  describe('PATCH /matches/:id/finish', function () {
+    it('devera atualizar uma partida colocando-a como finalizada', async function () {
+      sinon.stub(SequelizeMatch, 'findByPk').resolves(matcheInProgress as any);
+      sinon.stub(SequelizeMatch, 'update').resolves(finishedMatch as any);
+
+      const { status, body } = await chai
+        .request(app)
+        .patch('/matches/6/finish')
+        .set('Authorization', `Bearer ${validToken}`);
+
+      expect(status).to.be.equal(200);
+      expect(body).to.deep.equal({ message: 'Finished' });
+    });
+
+    it('devera retornar "Match not found", caso não encontre uma partida', async function () {
+      sinon.stub(SequelizeMatch, 'findByPk').resolves(null);
+
+      const { status, body } = await chai
+        .request(app)
+        .patch('/matches/6/finish')
+        .set('Authorization', `Bearer ${validToken}`);
+
+      expect(status).to.be.equal(404);
+      expect(body).to.deep.equal({ message: 'Match not found' });
     });
   });
 });
