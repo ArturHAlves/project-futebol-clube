@@ -41,6 +41,9 @@ export default class MatcheController {
   public async createMatch(req: Request, res: Response) {
     const ServiceResponse = await this.matcheService.createMatch(req.body);
 
+    if (ServiceResponse.status !== 'SUCESSFUL') {
+      return res.status(mapStatusHTTP(ServiceResponse.status)).json(ServiceResponse.data);
+    }
     return res.status(201).json(ServiceResponse.data);
   }
 }
