@@ -20,7 +20,21 @@ export default class MatcheController {
     if (ServiceResponse.status !== 'SUCESSFUL') {
       return res.status(mapStatusHTTP(ServiceResponse.status)).json(ServiceResponse.data);
     }
+    return res.status(200).json(ServiceResponse.data);
+  }
 
+  public async updateScore(req: Request, res: Response) {
+    const { id } = req.params;
+    const { homeTeamGoals, awayTeamGoals } = req.body;
+
+    const ServiceResponse = await this.matcheService.updateScore(+id, {
+      homeTeamGoals,
+      awayTeamGoals,
+    });
+
+    if (ServiceResponse.status !== 'SUCESSFUL') {
+      return res.status(mapStatusHTTP(ServiceResponse.status)).json(ServiceResponse.data);
+    }
     return res.status(200).json(ServiceResponse.data);
   }
 }

@@ -2,6 +2,7 @@ import IMatches from '../Interfaces/Matches/IMatches';
 import IMatcheModel from '../Interfaces/Matches/IMatchModel';
 import SequelizeMatch from '../database/models/SequelizeMatch';
 import SequelizeTeam from '../database/models/SequelizeTeam';
+import { NewEntity } from '../types/TNewEntity';
 
 export default class MatcheModel implements IMatcheModel {
   private model = SequelizeMatch;
@@ -35,5 +36,9 @@ export default class MatcheModel implements IMatcheModel {
 
   public async finishMatch(id: number): Promise<void> {
     await this.model.update({ inProgress: false }, { where: { id } });
+  }
+
+  public async updateScore(id: number, data: Partial<NewEntity<IMatches>>): Promise<void> {
+    await this.model.update(data, { where: { id } });
   }
 }

@@ -6,4 +6,6 @@ export default interface IMatcheModel {
   findById(id: IMatches['id']): Promise<IMatches | null>;
 
   finishMatch(id: IMatches['id']): Promise<void>;
+
+  updateScore(id: IMatches['id'], data: Partial<IMatches>): Promise<void>;
 }

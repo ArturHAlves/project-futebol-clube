@@ -5,7 +5,12 @@ import chaiHttp = require('chai-http');
 
 import { App } from '../app';
 import SequelizeMatch from '../database/models/SequelizeMatch';
-import { matches, matcheInProgress, finishedMatch } from './mocks/Match.mocks';
+import {
+  matches,
+  matcheInProgress,
+  finishedMatch,
+  updateScore,
+} from './mocks/Match.mocks';
 import { validToken } from './mocks/Login.mocks';
 
 chai.use(chaiHttp);
@@ -70,6 +75,33 @@ describe('Test Match', function () {
       const { status, body } = await chai
         .request(app)
         .patch('/matches/6/finish')
+        .set('Authorization', `Bearer ${validToken}`);
+
+      expect(status).to.be.equal(404);
+      expect(body).to.deep.equal({ message: 'Match not found' });
+    });
+  });
+
+  describe('PATCH /matches/:id', function () {
+    it('devera atualizar a pontuação da partida', async function () {
+      sinon.stub(SequelizeMatch, 'findByPk').resolves(matcheInProgress as any);
+      sinon.stub(SequelizeMatch, 'update').resolves(updateScore as any);
+
+      const { status, body } = await chai
+        .request(app)
+        .patch('/matches/1')
+        .set('Authorization', `Bearer ${validToken}`);
+
+      expect(status).to.be.equal(200);
+      expect(body).to.deep.equal({ message: 'Score updated' });
+    });
+
+    it('devera retornar "Match not found", caso não encontre uma partida', async function () {
+      sinon.stub(SequelizeMatch, 'findByPk').resolves(null);
+
+      const { status, body } = await chai
+        .request(app)
+        .patch('/matches/1')
         .set('Authorization', `Bearer ${validToken}`);
 
       expect(status).to.be.equal(404);
