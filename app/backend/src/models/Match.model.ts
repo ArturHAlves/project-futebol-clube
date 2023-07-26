@@ -41,4 +41,8 @@ export default class MatcheModel implements IMatcheModel {
   public async updateScore(id: number, data: Partial<NewEntity<IMatches>>): Promise<void> {
     await this.model.update(data, { where: { id } });
   }
+
+  public async create(data: NewEntity<IMatches>): Promise<IMatches> {
+    return this.model.create({ ...data, inProgress: true });
+  }
 }

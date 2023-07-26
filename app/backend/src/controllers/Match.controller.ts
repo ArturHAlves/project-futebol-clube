@@ -37,4 +37,10 @@ export default class MatcheController {
     }
     return res.status(200).json(ServiceResponse.data);
   }
+
+  public async createMatch(req: Request, res: Response) {
+    const ServiceResponse = await this.matcheService.createMatch(req.body);
+
+    return res.status(201).json(ServiceResponse.data);
+  }
 }

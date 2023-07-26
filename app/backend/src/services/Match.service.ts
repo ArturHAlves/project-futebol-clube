@@ -30,4 +30,9 @@ export default class MatcheService {
     await this.matcheModel.updateScore(id, data);
     return { status: 'SUCESSFUL', data: { message: 'Score updated' } };
   }
+
+  public async createMatch(data: NewEntity<IMatches>): Promise<ServiceResponse<IMatches>> {
+    const newMatch = await this.matcheModel.create(data);
+    return { status: 'SUCESSFUL', data: newMatch };
+  }
 }

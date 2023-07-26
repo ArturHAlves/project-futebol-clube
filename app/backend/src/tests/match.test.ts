@@ -10,6 +10,7 @@ import {
   matcheInProgress,
   finishedMatch,
   updateScore,
+  matchCreated,
 } from './mocks/Match.mocks';
 import { validToken } from './mocks/Login.mocks';
 
@@ -106,6 +107,20 @@ describe('Test Match', function () {
 
       expect(status).to.be.equal(404);
       expect(body).to.deep.equal({ message: 'Match not found' });
+    });
+  });
+
+  describe('POST /matches', function () {
+    it('deverar ser possível cadastrar uma nova partida', async function () {
+      sinon.stub(SequelizeMatch, 'create').resolves(matchCreated as any);
+
+      const { status, body } = await chai
+        .request(app)
+        .post('/matches')
+        .set('Authorization', `Bearer ${validToken}`);
+
+      expect(status).to.be.equal(201);
+      expect(body).to.deep.equal(matchCreated);
     });
   });
 });

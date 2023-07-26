@@ -6,8 +6,10 @@ const matchesController = new MatcheController();
 
 const router = Router();
 
-router.get('/', (req: Request, res: Response) =>
-  matchesController.getAllMatches(req, res));
+router.get(
+  '/',
+  (req: Request, res: Response) => matchesController.getAllMatches(req, res),
+);
 
 router.patch(
   '/:id/finish',
@@ -19,6 +21,12 @@ router.patch(
   '/:id',
   authenticaded.validateToken,
   (req: Request, res: Response) => matchesController.updateScore(req, res),
+);
+
+router.post(
+  '/',
+  authenticaded.validateToken,
+  (req: Request, res: Response) => matchesController.createMatch(req, res),
 );
 
 export default router;

@@ -8,4 +8,6 @@ export default interface IMatcheModel {
   finishMatch(id: IMatches['id']): Promise<void>;
 
   updateScore(id: IMatches['id'], data: Partial<IMatches>): Promise<void>;
+
+  create(data: Partial<IMatches>): Promise<IMatches>;
 }
