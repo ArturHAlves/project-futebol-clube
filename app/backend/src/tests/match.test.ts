@@ -11,6 +11,9 @@ import {
   finishedMatch,
   updateScore,
   matchCreated,
+  validBodyCreateMatch,
+  invalidBodyCreateMatch,
+  invalidBodyNoExistingTeam,
 } from './mocks/Match.mocks';
 import { validToken } from './mocks/Login.mocks';
 
@@ -117,10 +120,39 @@ describe('Test Match', function () {
       const { status, body } = await chai
         .request(app)
         .post('/matches')
-        .set('Authorization', `Bearer ${validToken}`);
+        .set('Authorization', `Bearer ${validToken}`)
+        .send(validBodyCreateMatch);
 
       expect(status).to.be.equal(201);
       expect(body).to.deep.equal(matchCreated);
+    });
+
+    it('deverar retornar um erro quando uma partida em que o "homeTeam" e o "awayTeam" sejam iguais', async function () {
+      const { status, body } = await chai
+        .request(app)
+        .post('/matches')
+        .set('Authorization', `Bearer ${validToken}`)
+        .send(invalidBodyCreateMatch);
+
+      expect(status).to.be.equal(422);
+      expect(body).to.deep.equal({
+        message: 'It is not possible to create a match with two equal teams',
+      });
+    });
+
+    it('deverar retornar um erro quando um dos times não esteja cadastrado no banco de dados', async function () {
+      sinon.stub(SequelizeMatch, 'findByPk').resolves(null);
+
+      const { status, body } = await chai
+        .request(app)
+        .post('/matches')
+        .set('Authorization', `Bearer ${validToken}`)
+        .send(invalidBodyNoExistingTeam);
+
+      expect(status).to.be.equal(404);
+      expect(body).to.deep.equal({
+        messsage: 'There is no team with such id!',
+      });
     });
   });
 });

@@ -16,6 +16,13 @@ const finishedMatch = [{ ...match, inProgress: false }];
 
 const updateScore = [{ ...match, homeTeamGoals: 5, awayTeamGoals: 1 }];
 
+const validBodyCreateMatch = {
+  homeTeamId: 16,
+  awayTeamId: 1,
+  homeTeamGoals: 4,
+  awayTeamGoals: 5,
+};
+
 const matchCreated = {
   id: 1,
   homeTeamId: 14,
@@ -25,11 +32,29 @@ const matchCreated = {
   inProgress: true,
 };
 
+const invalidBodyCreateMatch = {
+  homeTeamId: 16,
+  awayTeamId: 16,
+  homeTeamGoals: 4,
+  awayTeamGoals: 5,
+};
+
+const invalidBodyNoExistingTeam = {
+  homeTeamId: 1600,
+  awayTeamId: 16,
+  homeTeamGoals: 4,
+  awayTeamGoals: 5,
+};
+
+
 export {
   match,
   matches,
   matcheInProgress,
   finishedMatch,
   updateScore,
+  validBodyCreateMatch,
+  invalidBodyCreateMatch,
+  invalidBodyNoExistingTeam,
   matchCreated,
 };
