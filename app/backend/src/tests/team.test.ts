@@ -16,33 +16,34 @@ const { app } = new App();
 describe('Test Team', function () {
   afterEach(() => sinon.restore());
 
-  it('devera retornar todos os times', async function () {
-    // Arr
-    sinon.stub(SequelizeTeam, 'findAll').resolves(teams as any);
-    //Act
-    const { status, body } = await chai.request(app).get('/teams');
-    //Expect
-    expect(status).to.be.equal(200);
-    expect(body).to.deep.equal(teams);
+  describe('GET /team', function () {
+    it('devera retornar todos os times', async function () {
+      sinon.stub(SequelizeTeam, 'findAll').resolves(teams as any);
+
+      const { status, body } = await chai.request(app).get('/teams');
+
+      expect(status).to.be.equal(200);
+      expect(body).to.deep.equal(teams);
+    });
   });
 
-  it('devera retornar um time pelo id', async function () {
-    // Arr
-    sinon.stub(SequelizeTeam, 'findByPk').resolves(team as any);
-    // Act
-    const { status, body } = await chai.request(app).get('/teams/1');
-    // Expect
-    expect(status).to.be.equal(200);
-    expect(body).to.deep.equal(team);
-  });
+  describe('GET /team/:id', function () {
+    it('devera retornar um time pelo id', async function () {
+      sinon.stub(SequelizeTeam, 'findByPk').resolves(team as any);
 
-  it("devera retornar um 'Not found' se o time não existir", async function () {
-    // Arr
-    sinon.stub(SequelizeTeam, 'findByPk').resolves(null);
-    // Act
-    const { status, body } = await chai.request(app).get('/teams/99');
-    // Expect
-    expect(status).to.be.equal(404);
-    expect(body).to.deep.equal({ message: 'Team not found' });
+      const { status, body } = await chai.request(app).get('/teams/1');
+
+      expect(status).to.be.equal(200);
+      expect(body).to.deep.equal(team);
+    });
+
+    it("devera retornar um 'Not found' se o time não existir", async function () {
+      sinon.stub(SequelizeTeam, 'findByPk').resolves(null);
+
+      const { status, body } = await chai.request(app).get('/teams/99');
+
+      expect(status).to.be.equal(404);
+      expect(body).to.deep.equal({ message: 'Team not found' });
+    });
   });
 });
