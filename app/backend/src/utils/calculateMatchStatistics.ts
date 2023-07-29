@@ -9,6 +9,8 @@ export default class calculateMatchStatistics implements ILeaderboards {
   public totalLosses = 0;
   public goalsFavor = 0;
   public goalsOwn = 0;
+  public goalsBalance = 0;
+  public efficiency = 0;
 
   constructor(private teamMatch: ITeamStatistics, private homeOrAway?: 'Home' | 'Away') {
     this.name = teamMatch.teamName;
@@ -45,7 +47,13 @@ export default class calculateMatchStatistics implements ILeaderboards {
     this.teamMatch.matchesHome.forEach((match) => {
       this.goalsFavor += match.homeTeamGoals;
       this.goalsOwn += match.awayTeamGoals;
+      this.goalsBalance = this.goalsFavor - this.goalsOwn;
     });
+  }
+
+  private getEfficiency() {
+    // [P / (J * 3)] * 100
+    this.efficiency = parseFloat(((this.totalPoints / (3 * this.totalGames)) * 100).toFixed(2));
   }
 
   async statisticsResult() {
@@ -53,5 +61,6 @@ export default class calculateMatchStatistics implements ILeaderboards {
     this.getTotalScore();
     this.getTotalPoints();
     this.calculateGoals();
+    this.getEfficiency();
   }
 }

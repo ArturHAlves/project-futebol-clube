@@ -10,8 +10,8 @@ export interface ILeaderboards {
   totalLosses: number;
   goalsFavor: number;
   goalsOwn: number;
-  // goalsBalance: number;
-  // efficiency: number;
+  goalsBalance: number;
+  efficiency: number;
 }
 
 export interface ITeamStatistics extends ITeams {

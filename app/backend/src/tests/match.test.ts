@@ -151,7 +151,7 @@ describe('Test Match', function () {
 
       expect(status).to.be.equal(404);
       expect(body).to.deep.equal({
-        messsage: 'There is no team with such id!',
+        message: 'There is no team with such id!',
       });
     });
   });

@@ -9,6 +9,7 @@ export default class LeaderboardService {
   private static resultCalculatorDoido = (teamMatch: unknown, homeOrAway?: 'Home' | 'Away') => {
     const {
       name, totalPoints, totalGames, totalVictories, totalDraws, totalLosses, goalsFavor, goalsOwn,
+      goalsBalance, efficiency,
     } = new CalculateMatchStatistics(teamMatch as ITeamStatistics, homeOrAway);
     return {
       name,
@@ -19,6 +20,8 @@ export default class LeaderboardService {
       totalLosses,
       goalsFavor,
       goalsOwn,
+      goalsBalance,
+      efficiency,
     };
   };
 
